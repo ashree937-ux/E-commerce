@@ -1,6 +1,10 @@
 const productContainer = document.querySelector('.product-container'); 
 console.log(productContainer);
 
+function updateCount() {
+    
+}
+
 function createProductCard(product) {
     const productCard = document.createElement('div');
     productCard.classList.add('product-card');
@@ -43,6 +47,11 @@ function createProductCard(product) {
     const addToCartButton = document.createElement('button');
     addToCartButton.textContent = 'Add to Cart';
     addToCartButton.classList.add('add-to-cart-button');
+
+    addToCartButton.addEventListener("click" , () => {
+        addToCart(product);
+    });
+
     const wishList = document.createElement('button');
     wishList.textContent = '♡';
     wishList.classList.add('wishlist-button');
