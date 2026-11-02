@@ -2,7 +2,11 @@ const productContainer = document.querySelector('.product-container');
 console.log(productContainer);
 
 function updateCount() {
-    
+    const cartCount = document.querySelector('#cart-count');
+    const total =  cart.reduce((acc, curr) => {
+        return acc + curr.quantity; 
+    },0);
+    cartCount.textContent = total; 
 }
 
 function createProductCard(product) {
@@ -50,6 +54,8 @@ function createProductCard(product) {
 
     addToCartButton.addEventListener("click" , () => {
         addToCart(product);
+        updateCount();
+        renderCart();
     });
 
     const wishList = document.createElement('button');
@@ -61,6 +67,105 @@ function createProductCard(product) {
     productContainer.append(productCard);
 }
 
+function renderCart() {
+    const itemsInCart = document.querySelector('.cart-items');
+    itemsInCart.textContent = '';
+
+    let subTotal = 0;
+
+    cart.forEach(item => {
+        const itemId = item.id;
+        const foundProduct = products.find(product => product.id === itemId)
+        
+        const productCardCart = document.createElement('div');
+        productCardCart.classList.add('product-card-cart');
+
+        const productImageCart = document.createElement('img');
+        productImageCart.src = foundProduct.image;
+        productImageCart.alt = foundProduct.name;
+        productImageCart.classList.add('product-image-cart');
+        productCardCart.append(productImageCart);
+
+        const productNameCart = document.createElement('h3');
+        productNameCart.textContent = foundProduct.name;
+        productCardCart.append(productNameCart);
+
+        const productPriceCart = document.createElement('p');
+        productPriceCart.textContent = `₹${foundProduct.price}`;
+        productPriceCart.classList.add('product-price-cart');
+        productCardCart.append(productPriceCart);
+
+        const itemTotal = document.createElement('p');
+        const total = calculateItemTotal(foundProduct.price, item.quantity);
+        itemTotal.textContent = `Item Total: ₹${total}`;
+        productCardCart.append(itemTotal);
+
+        const actionContainer = document.createElement('div');
+        actionContainer.classList.add('cart-action-container');
+        const minusButton = document.createElement('button');
+        minusButton.textContent = '-';
+        const productQuantity = document.createElement('p');
+        productQuantity.textContent = `${item.quantity}`;
+        const plusButton = document.createElement('button');
+        plusButton.textContent = '+';
+        
+        plusButton.addEventListener("click", () => {
+            addItems(foundProduct.stock, item);
+            updateCount();
+            renderCart();
+        });
+
+        minusButton.addEventListener("click", () => {
+            removeItems(item);
+            updateCount();
+            renderCart();
+        });
+
+        actionContainer.append(minusButton,productQuantity,plusButton);
+        productCardCart.append(actionContainer);
+
+        const removeItem = document.createElement('button');
+        removeItem.textContent = 'Remove Product';
+        removeItem.addEventListener("click", () => {
+            removeFromCart(item.id);
+            updateCount();
+            renderCart();
+        });
+        productCardCart.append(removeItem);
+
+        subTotal += total; 
+
+        itemsInCart.append(productCardCart);
+    });
+
+    const cartSubTotal = document.querySelector('#cart-value');
+    cartSubTotal.textContent = '₹' + subTotal;  
+}
+
 products.forEach(currentelement => {
     createProductCard(currentelement);
 });
+
+const cartButton = document.querySelector('.cart-button');
+const cartDrawer = document.querySelector('.cart');
+const closeButton = document.querySelector('.close-button');
+const cartOverlay = document.querySelector('.cart-overlay');
+
+if (cartButton && cartDrawer) {
+    cartButton.addEventListener('click', () => {
+        openCart();
+    });
+}
+
+if (closeButton && cartDrawer) {
+    closeButton.addEventListener('click', () => {
+        closeCart();
+    });
+}
+
+if (cartOverlay && cartDrawer) {
+    cartOverlay.addEventListener('click', () => {
+        closeCart();
+    });
+}
+
