@@ -9,9 +9,7 @@ function calculateItemTotal(itemPrice, quantity) {
 }
 
 function calculateShipping(subTotal) {
-    if(subTotal === 0) {
-        return 0;
-    } else if(subTotal >= 999) {
+    if(subTotal === 0 || subTotal >= 999) {
         return 0;
     } else {
         return 49;

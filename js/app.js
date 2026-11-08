@@ -1,12 +1,8 @@
-console.log(productContainer);
 loadCart();
 loadWishlist();
 refreshCartUI();
 
-products.forEach(currentelement => {
-    createProductCard(currentelement);
-});
-
+renderCategories();
 refreshWishlistUI();
 
 const cartButton = document.querySelector('.cart-button');

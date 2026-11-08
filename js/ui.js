@@ -1,14 +1,17 @@
-const productContainer = document.querySelector('.product-container'); 
+function renderHomepageProducts() {
+    const featuredContainer = document.querySelector('.featured-container');
+    const newContainer = document.querySelector('.new-arrivals-container');
 
-function showToast(message) {
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.textContent = message;
-    document.body.appendChild(toast);
+    featuredContainer.textContent = '';
+    newContainer.textContent = '';
 
-    setTimeout(() => {
-        toast.remove();
-    }, 3000);
+    products.filter(product => product.isFeatured).forEach(product => {
+        createProductCard(product, featuredContainer);
+    });
+
+    products.filter(product => product.isNew).forEach(product => {
+        createProductCard(product, newContainer);
+    });
 }
 
 function createElement(tag, className, text) {
@@ -37,6 +40,8 @@ function updateWishlistButton(button, productId) {
 function refreshCartUI() {
     updateCartCount();
     renderCart();
+    renderHomepageProducts();
+    renderWishlist();
 }
 
 function updateCartCount() {
@@ -63,7 +68,7 @@ function refreshWishlistUI() {
     });
 }
 
-function createProductCard(product) {
+function createProductCard(product, container) {
     const productCard = createElement('div', 'product-card');
 
     const productImage = createElement('img', 'product-image');
@@ -84,24 +89,30 @@ function createProductCard(product) {
     const productDiscount = createElement('p', '', `(${discountPercentage}% off)`);
     priceContainer.append(productOriginalPrice, productPrice, productDiscount);
 
+    
     const actionContainer = createElement('div', 'action-container');
-    const addToCartButton = createButton('Add to Cart', 'add-to-cart-button', () => {
-        addToCart(product);
-        refreshCartUI();
-        showToast(`${product.name} has been added to the cart.`);
-    });
-
+    const quantity = getCartQuantity(product.id);
+    if (quantity > 0) {
+        actionContainer.append(createQuantityControls(product));
+    } else {
+        const addToCartButton = createButton('Add to Cart', 'add-to-cart-button', () => {
+            addToCart(product);
+            refreshCartUI();
+        });
+        addToCartButton.disabled = product.stock <= 0;
+        actionContainer.append(addToCartButton);
+    }
     const wishList = createButton('♡', 'heart-button', () => {
         toggleWishlist(product.id);
         refreshWishlistUI();
-        showToast(`${product.name} has been ${wishlist.includes(product.id) ? 'wishlisted.' : 'removed from wishlist'}`);
     });
-    wishList.dataset.productId = product.id;
-    actionContainer.append(addToCartButton, wishList);
-    
-    productCard.append(productImage, productName, reviewContainer, priceContainer, actionContainer);
 
-    productContainer.append(productCard);
+    wishList.dataset.productId = product.id;
+    updateWishlistButton(wishList, product.id);
+
+    actionContainer.append(wishList);
+    productCard.append(productImage, productName, reviewContainer, priceContainer, actionContainer);
+    container.append(productCard);
 }
 
 function renderCart() {
@@ -136,24 +147,15 @@ function renderCart() {
             const total = calculateItemTotal(foundProduct.price, item.quantity);
             const itemTotal = createElement('p', '', `Item Total: ₹${total}`);
 
-            const actionContainer = createElement('div', 'cart-action-container');
-            const minusButton = createButton('-', 'minus-button', () => {
-                removeItems(item);
-                refreshCartUI();
-            });
             
-            const productQuantity = createElement('p', 'product-quantity', `${item.quantity}`);
-            const plusButton = createButton('+', 'plus-button', () => {
-                addItems(foundProduct.stock, item);
-                refreshCartUI();
-            });
-
-            actionContainer.append(minusButton,productQuantity,plusButton);
 
             const removeItem = createButton('Remove Product', 'remove-item-button', () => {
                 removeFromCart(item.id);
                 refreshCartUI();
             });
+
+            const actionContainer = createElement('div', 'cart-action-container');
+            actionContainer.append(createQuantityControls(foundProduct));
             
             productCardCart.append(productImageCart, productNameCart, productPriceCart, itemTotal, actionContainer, removeItem);
 
@@ -196,8 +198,8 @@ function createWishlistItem(foundProduct) {
     const addToCartButtonWishlist = createButton('Add to Cart', 'add-to-cart-button-wishlist', () => {
         addToCart(foundProduct);
         refreshCartUI();
-        showToast(`${foundProduct.name} has been added to the cart.`);
     });
+    addToCartButtonWishlist.disabled = getCartQuantity(foundProduct.id) >= foundProduct.stock;
 
     productCardWishlist.append(productImageWishlist, productNameWishlist, productPriceWishlist, removeItemWishlist, addToCartButtonWishlist);
 
@@ -219,4 +221,57 @@ function renderWishlist() {
             itemsInWishlist.append(createWishlistItem(foundProduct));
         }
     });
+}
+
+function renderCategories() {
+    const categoriesContainer = document.querySelector('.categories-container');
+    categoriesContainer.textContent = '';
+    const categories = [...new Set(products.map(product => product.category))];
+    categories.forEach(category => {
+        const categoryCard = createElement('div', 'category-card');
+
+        const categoryImage = createElement('img', 'category-image');
+        const categoryProduct = products.find(product => product.category === category);
+        if (categoryProduct) {
+            categoryImage.src = categoryProduct.image;
+            categoryImage.alt = categoryProduct.name;
+        }
+        categoryCard.appendChild(categoryImage);
+
+        const categoryName = createElement('h2', 'category-name', category);
+        categoryCard.appendChild(categoryName);
+
+        categoriesContainer.appendChild(categoryCard);
+    });
+}
+
+function getCartQuantity(productId) {
+    const item = cart.find(item => item.id === productId);
+    return item ? item.quantity : 0;
+}
+
+function createQuantityControls(product) {
+    const quantityContainer = createElement('div', 'quantity-container');
+    const quantity = getCartQuantity(product.id);
+
+    const minusButton = createButton('-', 'minus-button', () => {
+        const item = cart.find(item => item.id === product.id);
+        if (item) {
+            removeItems(item);
+            refreshCartUI();
+        }
+    });
+
+    const productQuantity = createElement('span', 'product-quantity', `${quantity}`);
+    const plusButton = createButton('+', 'plus-button', () => {
+        const item = cart.find(item => item.id === product.id);
+        if (item) {
+            addItems(product.stock, item);
+            refreshCartUI();
+        }
+    });
+
+    plusButton.disabled = quantity >= product.stock;
+    quantityContainer.append(minusButton, productQuantity, plusButton);
+    return quantityContainer;
 }
