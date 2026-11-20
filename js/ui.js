@@ -1,3 +1,32 @@
+let pendingConfirmationAction;
+
+const confirmationOverlay = document.querySelector('.confirmation-overlay');
+const confirmationModal = document.querySelector('.confirmation-modal');
+const confirmationTitle = document.querySelector('.confirmation-title');
+const confirmationMessage = document.querySelector('.confirmation-message');
+const confirmationCancel = document.querySelector('.confirmation-cancel');
+const confirmationConfirm = document.querySelector('.confirmation-confirm');
+
+confirmationConfirm.addEventListener('click', () => {
+    if (pendingConfirmationAction) {
+        pendingConfirmationAction();
+        confirmationOverlay.classList.remove('open');
+        pendingConfirmationAction = '';
+    }
+});
+
+confirmationCancel.addEventListener('click', () => {
+    confirmationOverlay.classList.remove('open');
+    pendingConfirmationAction = '';
+})
+
+function openConfirmation(title, message, onConfirm) {
+    confirmationTitle.textContent = 'Clear your ' + title;
+    confirmationMessage.textContent = message;
+    pendingConfirmationAction = onConfirm;
+    confirmationOverlay.classList.add('open');
+} 
+
 function renderHomepageProducts() {
     const featuredContainer = document.querySelector('.featured-container');
     const newContainer = document.querySelector('.new-arrivals-container');

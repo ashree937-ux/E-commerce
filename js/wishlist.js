@@ -22,6 +22,9 @@ function loadWishlist() {
 }
 
 function openWishlist() {
+    if (typeof closeCart === 'function') {
+        closeCart();
+    }
     wishlistDrawer.classList.add('open');
     wishlistOverlay?.classList.add('open');
 }
@@ -32,11 +35,6 @@ function closeWishlist() {
 }
 
 function clearWishlist() {
-    let confirmation = confirm("Are you sure you want to clear the wishlist?");
-    if(confirmation)
-    {
-        wishlist = [];
-        saveWishlist();
-        refreshWishlistUI();
-    }
+    wishlist = [];
+    saveWishlist();
 }

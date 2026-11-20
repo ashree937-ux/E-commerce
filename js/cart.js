@@ -65,16 +65,9 @@ function removeItems(item) {
 }
 
 function removeFromCart(id) {
-    cart = cart.filter((item) => {
-        if(item.id !== id)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    });
+    cart = cart.filter((item) => 
+        (item.id !== id)
+    );
     saveCart();
 }
 
@@ -91,11 +84,6 @@ function loadCart() {
 }
 
 function clearCart() {
-    let confirmation = confirm("Are you sure you want to clear the cart?");
-    if(confirmation)
-    {
-        cart = [];
-        saveCart();
-        refreshCartUI();
-    }
+    cart = [];
+    saveCart();
 }

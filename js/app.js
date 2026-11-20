@@ -33,7 +33,10 @@ if (cartOverlay && cartDrawer) {
 const clearCartButton = document.querySelector('.clear-cart');
 if(clearCartButton) {
     clearCartButton.addEventListener('click', () => {
-        clearCart();
+        openConfirmation('Cart', 'Are you sure you want to remove all items from your cart?', () => {
+            clearCart();
+            refreshCartUI();
+        });
     });
 }
 
@@ -65,6 +68,16 @@ if (wishlistOverlay && wishlistDrawer) {
 const clearWishlistButton = document.querySelector('.clear-wishlist');
 if(clearWishlistButton) {
     clearWishlistButton.addEventListener('click', () => {
-        clearWishlist();
+        openConfirmation('Wishlist', 'Are you sure you want to remove all items from your wishlist?', () => {
+            clearWishlist();
+            refreshWishlistUI();
+        });
     });
 }
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+        closeCart();
+        closeWishlist();
+    }
+});

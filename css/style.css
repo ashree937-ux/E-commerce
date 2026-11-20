@@ -398,14 +398,16 @@ section.wishlist {
     z-index: 1000;
     display: flex;
     flex-direction: column;
+    visibility: hidden;
     transform: translateX(100%);
-    transition: transform var(--transition-normal);
+    transition: transform var(--transition-normal), visibility var(--transition-normal);
     box-shadow: var(--shadow-lg);
     box-sizing: border-box;
 }
 
 .cart.open,
 .wishlist.open {
+    visibility: visible;
     transform: translateX(0);
 }
 
@@ -889,3 +891,148 @@ button {
 .add-to-cart-button-wishlist:disabled:hover {
     background-color: var(--color-accent);
 }
+
+/* =========================================
+   Confirmation Modal
+   ========================================= */
+
+.confirmation-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    height: 100vh;
+    height: 100dvh;
+    background-color: var(--color-overlay);
+    backdrop-filter: blur(2px);
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-md);
+    box-sizing: border-box;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity var(--transition-normal), visibility var(--transition-normal);
+}
+
+.confirmation-overlay.open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.confirmation-modal {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-xl);
+    width: 100%;
+    max-width: 420px;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+    transform: scale(0.95);
+    transition: transform var(--transition-normal);
+}
+
+.confirmation-overlay.open .confirmation-modal {
+    transform: scale(1);
+}
+
+.confirmation-title {
+    grid-column: 1 / -1;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    line-height: 1.3;
+    margin: 0;
+}
+
+.confirmation-message {
+    grid-column: 1 / -1;
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    margin: 0 0 var(--space-xs) 0;
+}
+
+.confirmation-cancel,
+.confirmation-confirm {
+    padding: 10px var(--space-md);
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+
+.confirmation-cancel:active,
+.confirmation-confirm:active {
+    transform: scale(0.98);
+}
+
+/* Secondary Cancel Button */
+.confirmation-cancel {
+    background-color: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-main);
+}
+
+.confirmation-cancel:hover {
+    background-color: var(--color-surface-subtle);
+    border-color: #d1c8bb;
+}
+
+/* Primary Confirm Button */
+.confirmation-confirm {
+    background-color: var(--color-accent);
+    color: #ffffff;
+    border: 1px solid transparent;
+}
+
+.confirmation-confirm:hover {
+    background-color: var(--color-accent-hover);
+}
+
+/* Destructive variation for actions like Clear Cart or Clear Wishlist */
+.confirmation-confirm.danger,
+.confirmation-confirm.destructive {
+    background-color: var(--color-heart);
+}
+
+.confirmation-confirm.danger:hover,
+.confirmation-confirm.destructive:hover {
+    background-color: #b91c1c;
+}
+
+@media (max-width: 420px) {
+    .confirmation-modal {
+        padding: var(--space-lg);
+        grid-template-columns: 1fr;
+    }
+
+    .confirmation-cancel,
+    .confirmation-confirm {
+        width: 100%;
+    }
+
+    .confirmation-confirm {
+        order: 1;
+    }
+
+    .confirmation-cancel {
+        order: 2;
+    }
+}
+

@@ -8,93 +8,97 @@
 </head>
 <body>
     <header>
-            <div class="header">
-                <img src="assets/images/logo.png" alt="Logo" width="65" height="30">
-                <h1>Shop</h1>
-                <nav class="nav-links">
-                    <a>Home</a>
-                    <a>Shop</a>
-                    <a>Categories</a>
-                </nav>
-                <button class="wishlist-button">
-                    ♡ <span id="wishlist-count">0</span>
-                </button>
-                <button class="cart-button">
-                    🛒 <span id="cart-count">0</span>
-                </button>
-            </div>
-        </header>
-        <main>
-            <div class="hero">
-                <h1>Welcome to Our Store</h1>
-                <p>Discover the best products at unbeatable prices.</p>
-                <button>Shop Now</button>
-            </div>
-            <section class="featured-products">
-                <h1>Featured Products</h1>
-                <div class="featured-container">
-                </div>
-            </section>
-            <section class="categories">
-                <h1>Categories</h1>
-                <div class="categories-container">
-                </div>
-            </section>
-            <section class="new-arrivals">
-                <h1>New Arrivals</h1>
-                <div class="new-arrivals-container">
-                </div>
-            </section>
-        </main>
-        <div class="cart-overlay">
-            <section class="cart">
-                <div class="cart-header">
-                    <h2>My Cart</h2>
-                    <button class="clear-cart">Clear Cart</button>
-                    <button class="cart-close-button">X</button>    
-                </div>
-                <div class="cart-items">
-
-                </div>
-                <div class="cart-footer">
-                    <div class="subtotal">
-                        <h4>Subtotal</h4>
-                        <span id="cart-value">₹0</span>
-                    </div>
-                    <div class="shipping">
-                        <h4>Shipping</h4>
-                        <span id="shipping-value">₹0</span>
-                    </div>
-                    <div class="final">    
-                        <h4>Final Total</h4>
-                        <span id="final-total">₹0</span>
-                    </div>
-                <button class="checkout-button">Proceed to Checkout</button> 
-                </div>  
-            </section>
+        <div class="header">
+            <img src="assets/images/logo.png" alt="Logo" width="65" height="30">
+            <h1>Shop</h1>
+            <nav class="nav-links">
+                <a>Home</a>
+                <a>Shop</a>
+                <a>Categories</a>
+            </nav>
+            <button class="wishlist-button">
+                ♡ <span id="wishlist-count">0</span>
+            </button>
+            <button class="cart-button">
+                🛒 <span id="cart-count">0</span>
+            </button>
         </div>
-        <div class="wishlist-overlay">
-            <section class="wishlist">
-                <div class="wishlist-header">
-                    <h2>My Wishlist</h2>
-                    <button class="clear-wishlist">Clear Wishlist</button>
-                    <button class="wishlist-close-button">X</button>    
-                </div>
-                <div class="wishlist-items">
-
-                </div> 
-            </section>
+    </header>
+    <main>
+        <div class="hero">
+            <h1>Welcome to Our Store</h1>
+            <p>Discover the best products at unbeatable prices.</p>
+            <button>Shop Now</button>
         </div>
-        <footer>
-            <div class="footer">
-                <p>&copy; 2026 My E-commerce Website. All rights reserved.</p>
+        <section class="featured-products">
+            <h1>Featured Products</h1>
+            <div class="featured-container">
             </div>
-        </footer>
-        <script src="js/products.js"></script>
-        <script src="js/utils.js"></script>
-        <script src="js/cart.js"></script>
-        <script src="js/wishlist.js"></script>
-        <script src="js/ui.js"></script>
-        <script src="js/app.js"></script>
-    </body>
+        </section>
+        <section class="categories">
+            <h1>Categories</h1>
+            <div class="categories-container">
+            </div>
+        </section>
+        <section class="new-arrivals">
+            <h1>New Arrivals</h1>
+            <div class="new-arrivals-container">
+            </div>
+        </section>
+    </main>
+    <div class="cart-overlay"></div>
+    <section class="cart">
+        <div class="cart-header">
+            <h2>My Cart</h2>
+            <button class="clear-cart">Clear Cart</button>
+            <button class="cart-close-button">X</button>    
+        </div>
+        <div class="cart-items">
+        </div>
+        <div class="cart-footer">
+            <div class="subtotal">
+                <h4>Subtotal</h4>
+                <span id="cart-value">₹0</span>
+            </div>
+            <div class="shipping">
+                <h4>Shipping</h4>
+                <span id="shipping-value">₹0</span>
+            </div>
+            <div class="final">    
+                <h4>Final Total</h4>
+                <span id="final-total">₹0</span>
+            </div>
+            <button class="checkout-button">Proceed to Checkout</button> 
+        </div>  
+    </section>
+    <div class="wishlist-overlay"></div>
+    <section class="wishlist">
+        <div class="wishlist-header">
+            <h2>My Wishlist</h2>
+            <button class="clear-wishlist">Clear Wishlist</button>
+            <button class="wishlist-close-button">X</button>    
+        </div>
+        <div class="wishlist-items">
+        </div> 
+    </section>
+    <div class="confirmation-overlay">
+        <section class="confirmation-modal">
+            <h2 class="confirmation-title"></h2>
+            <p class="confirmation-message"></p>
+            <button class="confirmation-cancel">Cancel</button>
+            <button class="confirmation-confirm">Confirm</button>
+        </section>
+    </div>
+    <footer>
+        <div class="footer">
+            <p>&copy; 2026 My E-commerce Website. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="js/products.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/wishlist.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
 </html>
