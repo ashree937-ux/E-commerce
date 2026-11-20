@@ -12,10 +12,14 @@
             <img src="assets/images/logo.png" alt="Logo" width="65" height="30">
             <h1>Shop</h1>
             <nav class="nav-links">
-                <a>Home</a>
-                <a>Shop</a>
-                <a>Categories</a>
+                <a class="home" href="#hero">Home</a>
+                <a class="featured" href="#featured-products">Featured Products</a>
+                <a class="category" href="#categories">Categories</a>
+                <a class="arrivals" href="#new-arrivals">New Arrivals</a>
             </nav>
+            <div class="search-container">
+                <input type="search" placeholder="Search products, categories, or tags" id="search-input">
+            </div>
             <button class="wishlist-button">
                 ♡ <span id="wishlist-count">0</span>
             </button>
@@ -25,24 +29,29 @@
         </div>
     </header>
     <main>
-        <div class="hero">
+        <div id="hero">
             <h1>Welcome to Our Store</h1>
             <p>Discover the best products at unbeatable prices.</p>
-            <button>Shop Now</button>
+            <button class="shop-cta">Shop Now</button>
         </div>
-        <section class="featured-products">
+        <section id="featured-products">
             <h1>Featured Products</h1>
             <div class="featured-container">
             </div>
         </section>
-        <section class="categories">
+        <section id="categories">
             <h1>Categories</h1>
             <div class="categories-container">
             </div>
         </section>
-        <section class="new-arrivals">
+        <section id="new-arrivals">
             <h1>New Arrivals</h1>
             <div class="new-arrivals-container">
+            </div>
+        </section>
+        <section class="shop-section">
+            <h1 class="search-heading"></h1>
+            <div class="result-container">
             </div>
         </section>
     </main>
@@ -99,6 +108,7 @@
     <script src="js/cart.js"></script>
     <script src="js/wishlist.js"></script>
     <script src="js/ui.js"></script>
+    <script src="js/filters.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

@@ -81,3 +81,35 @@ document.addEventListener('keydown', (event) => {
         closeWishlist();
     }
 });
+
+const searchInput = document.querySelector('#search-input');
+const resultContainer = document.querySelector('.result-container');
+const resultHeading = document.querySelector('.search-heading');
+let results = searchProducts(searchInput.value);
+searchInput.addEventListener('input', () => {
+    if(searchInput.value.trim() === '')
+    {
+        document.body.classList.remove('is-searching');
+        resultHeading.textContent = '';
+        resultContainer.textContent = '';
+        return;
+    }
+    else
+    {
+        document.body.classList.add('is-searching');
+        resultHeading.textContent = 'Results for '+searchInput.value;
+        resultContainer.textContent= '';
+        results = searchProducts(searchInput.value);
+    }
+    if(results.length === 0)
+    {
+        const noProducts = createElement('p', '', "No products found matching your search.");
+        resultContainer.append(noProducts);
+    }
+    else
+    {
+        results.forEach(product => {
+            createProductCard(product, resultContainer);
+        });
+    }
+});

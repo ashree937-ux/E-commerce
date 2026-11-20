@@ -111,7 +111,6 @@ header {
     font-size: 1.4rem;
     font-weight: 700;
     color: var(--color-text-main);
-    margin-right: auto;
 }
 
 .nav-links {
@@ -130,6 +129,38 @@ header {
 
 .nav-links a:hover {
     color: var(--color-accent);
+}
+
+/* Header Search */
+.search-container {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    max-width: 360px;
+    min-width: 200px;
+    margin-left: auto;
+}
+
+#search-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+    color: var(--color-text-main);
+    font-family: inherit;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+#search-input:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 2px var(--color-accent);
+}
+
+#search-input::placeholder {
+    color: var(--color-text-muted);
 }
 
 .wishlist-button,
@@ -165,7 +196,7 @@ header {
     text-align: center;
 }
 
-.hero {
+#hero {
     max-width: 1200px;
     margin: var(--space-xl) auto;
     padding: var(--space-2xl) var(--space-lg);
@@ -176,7 +207,7 @@ header {
     box-shadow: var(--shadow-sm);
 }
 
-.hero h1 {
+#hero h1 {
     font-size: 2.25rem;
     font-weight: 800;
     color: var(--color-text-main);
@@ -184,7 +215,7 @@ header {
     line-height: 1.2;
 }
 
-.hero p {
+#hero p {
     font-size: 1.1rem;
     color: var(--color-text-muted);
     margin-bottom: var(--space-lg);
@@ -193,7 +224,7 @@ header {
     margin-right: auto;
 }
 
-.hero button {
+#hero button {
     background-color: var(--color-accent);
     color: #ffffff;
     font-weight: 600;
@@ -203,7 +234,7 @@ header {
     transition: background-color var(--transition-fast), transform var(--transition-fast);
 }
 
-.hero button:hover {
+#hero button:hover {
     background-color: var(--color-accent-hover);
     transform: translateY(-1px);
 }
@@ -228,10 +259,44 @@ main > section > h1 {
     border-bottom: 2px solid var(--color-border);
 }
 
-.featured-container, .categories-container, .new-arrivals-container {
+.featured-container, .categories-container, .new-arrivals-container, .result-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: var(--space-lg);
+}
+
+/* Search Visibility */
+.shop-section {
+    display: none;
+}
+
+body.is-searching .shop-section {
+    display: block;
+}
+
+body.is-searching #hero,
+body.is-searching #featured-products,
+body.is-searching #categories,
+body.is-searching #new-arrivals {
+    display: none;
+}
+
+.search-heading:empty {
+    display: none;
+}
+
+.result-container {
+    min-height: 250px;
+}
+
+/* Empty Search Message - targeted with direct child selector so card elements are unaffected */
+.result-container > p {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--color-text-muted);
+    padding: var(--space-2xl) var(--space-md);
+    font-size: 1.05rem;
+    margin: 0;
 }
 
 .product-card {
@@ -781,7 +846,7 @@ button {
 .add-to-cart-button,
 .heart-button,
 .checkout-button,
-.hero button,
+#hero button,
 .wishlist-button,
 .cart-button {
     min-height: 42px;
@@ -815,12 +880,12 @@ button {
         border-top: 1px solid var(--color-border);
     }
 
-    .hero {
+    #hero {
         margin: var(--space-lg) var(--space-sm);
         padding: var(--space-xl) var(--space-md);
     }
 
-    .hero h1 {
+    #hero h1 {
         font-size: 1.75rem;
     }
 
@@ -846,11 +911,11 @@ button {
         font-size: 0.85rem;
     }
 
-    .hero h1 {
+    #hero h1 {
         font-size: 1.5rem;
     }
 
-    .hero p {
+    #hero p {
         font-size: 0.95rem;
     }
 
